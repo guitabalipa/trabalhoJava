@@ -29,7 +29,8 @@ public class Triangulo extends Forma{
 
     @Override
     public double area() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        double calc=(base*altura)/2;
+        return calc;
     }
     
 }
