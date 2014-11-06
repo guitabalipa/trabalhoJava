@@ -46,7 +46,7 @@ public class Pedido {
         
     }
     
-    public List<Tapete> getTapetesPorMaterial(Material material){
+    /*public List<Tapete> getTapetesPorMaterial(Material material){
         
-    }
+    }*/
 }

@@ -13,10 +13,16 @@ public class Retangulo extends Forma{
     
     private double ladoA;
     private double ladoB;
+    private String nome;
 
-    public Retangulo(double ladoA, double ladoB) {
+    public Retangulo(double ladoA, double ladoB, String nome) {
         this.ladoA = ladoA;
         this.ladoB = ladoB;
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
     }
 
     public double getLadoA() {

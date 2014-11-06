@@ -13,6 +13,15 @@ public class Tapete {
     
     private Forma forma;
     private Material material;
+    private Double Preco; 
+
+    public Double getPreco() {
+        return Preco;
+    }
+
+    public void setPreco(Double Preco) {
+        this.Preco = Preco;
+    }
 
     public Forma getForma() {
         return forma;
@@ -28,9 +37,5 @@ public class Tapete {
 
     public void setMaterial(Material material) {
         this.material = material;
-    }
-    
-    public void getPreco(){
-        
     }
 }

@@ -12,9 +12,15 @@ package DesignTapetes;
 public class Circulo extends Forma{
     
     private double raio;
+    private String nome;
 
-    public Circulo(double raio) {
+    public Circulo(double raio, String nome) {
         this.raio = raio;
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
     }
 
     public double getRaio() {

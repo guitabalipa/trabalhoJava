@@ -13,10 +13,16 @@ public class Triangulo extends Forma{
     
     private double base;
     private double altura;
+    private String nome;
 
-    public Triangulo(double base, double altura) {
+    public Triangulo(double base, double altura, String nome) {
         this.base = base;
         this.altura = altura;
+        this.nome = nome;
+    }
+    
+    public String getNome() {
+        return nome;
     }
 
     public double getBase() {

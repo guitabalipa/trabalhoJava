@@ -11,6 +11,12 @@ package DesignTapetes;
  */
 public abstract class Forma {
     
+    private String nome;
+
+    public String getNome() {
+        return nome;
+    }
+    
     public abstract double area();
     
 }
