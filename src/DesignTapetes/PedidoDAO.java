@@ -17,19 +17,7 @@ public class PedidoDAO {
         
     }
     
-    public Pedido getPedidoDoCliente(Cliente cliente){
-        
-    }
-    
     public void atualizaPedido(Pedido pedido){
-        
-    }
-    
-    public void adicionaPedidoAoCliente(Pedido pedido, String cpfCliente){
-        
-    }
-    
-    public void excluiPedidoDoCliente(Pedido pedido){
         
     }
 }
