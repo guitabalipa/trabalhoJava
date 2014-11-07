@@ -5,6 +5,9 @@
  */
 package DesignTapetes;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,11 +18,13 @@ import java.util.ArrayList;
 
 
 public class MaterialDAO {
-    //  private final String stmtInserir = "INSERT INTO material(modelo, precoMetroQuadrado) VALUES(?,?)";
-    private final String stmtAtualizar = "UPDATE material SET precoMetroQuadrado = ? WHERE modelo = ?";
+    //  private final String stmtInserir = "INSERT INTO material(nomeMaterial, valor) VALUES(?,?)";
+    private final String stmtAtualizar = "UPDATE material SET valor = ? WHERE nomeMaterial = ?";
    // private final String stmtExcluir = "DELETE from material WHERE id = ?";
     private final String stmtListar = "SELECT * FROM material";    
     
+
+   /*
     public List<Material> listaMateriais(){
        ResultSet rs = null;
         try {
@@ -43,8 +48,33 @@ public class MaterialDAO {
             try{stmt.close();}catch(Exception ex){System.out.println("Erro ao fechar stmt. Ex="+ex.getMessage());};
             try{con.close();}catch(Exception ex){System.out.println("Erro ao fechar conexão. Ex="+ex.getMessage());};
         }
-   }
+   }*/
     
+    public Material getMaterial(String m){
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try{
+        con = ConnectionFactory.getConnection();
+        String sql = "select * from material where nomeMaterial = ?";
+        stmt = con.prepareStatement(sql);
+        stmt.setString(1, m);
+        rs = stmt.executeQuery();
+        rs.next();
+        Material material = new Material(rs.getDouble("valor"), rs.getString("nomeMaterial"));
+        return material;
+        } catch(Exception e){
+            throw new RuntimeException(e);
+        } finally{
+            try{stmt.close();}catch(Exception ex){System.out.println("Erro ao fechar stmt. Ex="+ex.getMessage());};
+            try{con.close();}catch(Exception ex){System.out.println("Erro ao fechar conexão. Ex="+ex.getMessage());};
+        }
+    }
+    /*public List<Material> listaMateriais(){
+        
+    }
+>>>>>>> origin/master
+    */
     public void atualizaMaterial(Material material){
         Connection con=null;
         PreparedStatement stmt = null;
@@ -65,4 +95,8 @@ public class MaterialDAO {
             try{con.close();}catch(Exception ex){System.out.println("Erro ao fechar conexão. Ex="+ex.getMessage());};
         }
     }
-}
+
+        
+    }
+
+

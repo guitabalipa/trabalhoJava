@@ -17,8 +17,7 @@ public class Pedido {
     private double preco;
     private List<Tapete> tapetes;
 
-    public Pedido(int idPedido, List<Tapete> tapetes) {
-        this.idPedido = idPedido;
+    public Pedido(List<Tapete> tapetes) {
         this.tapetes = tapetes;
     }
 
@@ -42,11 +41,7 @@ public class Pedido {
         return tapetes;
     }
     
-    public void adicionaTapetesNoPedido(List<Tapete> tapetes){
-        
+    public void adicionaTapeteNoPedido(Tapete tapete){
+        tapetes.add(tapete);
     }
-    
-    /*public List<Tapete> getTapetesPorMaterial(Material material){
-        
-    }*/
 }

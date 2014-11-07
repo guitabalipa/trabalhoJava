@@ -68,7 +68,7 @@ public class ClienteDAO {
             con = ConnectionFactory.getConnection();
             stmt = con.prepareStatement(stmtExcluir);
             
-            this.excluirClientePedido(cliente.getCpf(), con);
+            //this.excluirClientePedido(cliente.getCpf(), con);
             stmt.setString(1, cliente.getCpf());
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -163,7 +163,7 @@ public class ClienteDAO {
      
             return cliente;
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao listar Cliente no banco de dados. Origem="+ex.getMessage());
+            throw new RuntimeException("Erro ao buscar Cliente no banco de dados. Origem="+ex.getMessage());
         } finally{
             try{rs.close();}catch(Exception ex){System.out.println("Erro ao fechar rs. Ex="+ex.getMessage());};
             try{stmt.close();}catch(Exception ex){System.out.println("Erro ao fechar stmt. Ex="+ex.getMessage());};
@@ -171,7 +171,7 @@ public class ClienteDAO {
         }
     }
     
-    public Pedido getPedidoDoCliente(Cliente cliente){
+    public Pedido getPedidoDoCliente(Cliente cliente) throws Exception{
         String sql = "select * from pedido where cliente = ?";
         Connection con = null;
         PreparedStatement stmt = null;
@@ -183,11 +183,11 @@ public class ClienteDAO {
             rs = stmt.executeQuery();
             rs.next();
             List<Tapete> tapetes = getTapetes(rs.getInt("id"), con);
-            Pedido pedido = new Pedido(rs.getInt("id"), tapetes);
+            Pedido pedido = new Pedido(tapetes);
      
             return pedido;
-        } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao listar Pedido no banco de dados. Origem="+ex.getMessage());
+        } catch (Exception ex) {
+            throw new PedidoNaoEncontradoException();
         } finally{
             try{rs.close();}catch(Exception ex){System.out.println("Erro ao fechar rs. Ex="+ex.getMessage());};
             try{stmt.close();}catch(Exception ex){System.out.println("Erro ao fechar stmt. Ex="+ex.getMessage());};
@@ -243,7 +243,7 @@ public class ClienteDAO {
         }
     }
     
-    public void adicionaPedidoAoCliente(Pedido pedido, String cpfCliente){
+    public int adicionaPedidoAoCliente(Pedido pedido, String cpfCliente){
         String sql = "insert into pedido(cliente) values(?)";
         Connection con=null;
         PreparedStatement stmt=null;
@@ -254,8 +254,9 @@ public class ClienteDAO {
             stmt.executeUpdate();
             ResultSet rs = stmt.getGeneratedKeys();
             rs.next();
-            pedido.setIdentificadorPedido(rs.getInt(1));
-            adicionaTapeteAoPedido(pedido);
+            int id = rs.getInt(1);
+            //adicionaTapeteAoPedido(pedido);
+            return id;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally{
@@ -344,7 +345,7 @@ public class ClienteDAO {
         int id;
         try{
         con = ConnectionFactory.getConnection();
-        String sql = "select from material(id, valor) where nomeMaterial = ?";
+        String sql = "select id, valor from material where nomeMaterial = ?";
         stmt = con.prepareStatement(sql);
         stmt.setString(1, material.getModelo());
         rs = stmt.executeQuery();

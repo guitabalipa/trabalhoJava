@@ -16,7 +16,7 @@ import java.sql.SQLException;
 public class ConnectionFactory {
     
     public static Connection getConnection() throws SQLException{
-        return DriverManager.getConnection("jdbc:mysql://localhost/javatrab", "root", "6657942fe");
+        return DriverManager.getConnection("jdbc:mysql://localhost/designtapetes", "root", "6657942fe");
 
     }
 }
