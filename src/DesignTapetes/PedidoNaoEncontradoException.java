@@ -5,19 +5,13 @@
  */
 package DesignTapetes;
 
-import java.util.List;
-
 /**
  *
  * @author Guilherme
  */
-public class PedidoDAO {
-    
-    /*public List<Pedido> listaPedidos(){
-        
+public class PedidoNaoEncontradoException extends Exception{
+
+    public PedidoNaoEncontradoException() {
+        super("Nenhum pedido encontrado.");
     }
-    
-    public void atualizaPedido(Pedido pedido){
-        
-    }*/
 }
