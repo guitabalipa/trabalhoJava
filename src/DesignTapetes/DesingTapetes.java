@@ -618,10 +618,9 @@ public class DesingTapetes extends javax.swing.JFrame {
         Pedido pedido = new Pedido(tapetes);
         //tapetes.add(tapete);
         ClienteDAO clidao = new ClienteDAO();
-        int id = clidao.adicionaPedidoAoCliente(pedido, cliente.getCpf());
-        pedido.setIdentificadorPedido(id);
+        clidao.adicionaPedidoAoCliente(pedido, cliente.getCpf());
         pedido.adicionaTapeteNoPedido(tapete);
-        clidao.adicionaTapeteAoPedido(pedido);
+        clidao.adicionaTapeteAoPedido(pedido, cliente.getCpf());
         
     }//GEN-LAST:event_botaoIncluirItemActionPerformed
 

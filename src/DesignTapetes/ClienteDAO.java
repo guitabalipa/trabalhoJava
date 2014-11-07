@@ -243,7 +243,7 @@ public class ClienteDAO {
         }
     }
     
-    public int adicionaPedidoAoCliente(Pedido pedido, String cpfCliente){
+    public void adicionaPedidoAoCliente(Pedido pedido, String cpfCliente){
         String sql = "insert into pedido(cliente) values(?)";
         Connection con=null;
         PreparedStatement stmt=null;
@@ -252,11 +252,10 @@ public class ClienteDAO {
             stmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             stmt.setString(1, cpfCliente);
             stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-            rs.next();
-            int id = rs.getInt(1);
+            //ResultSet rs = stmt.getGeneratedKeys();
+            //rs.next();
+            //int id = rs.getInt(1);
             //adicionaTapeteAoPedido(pedido);
-            return id;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally{
@@ -265,7 +264,18 @@ public class ClienteDAO {
         }
     }
     
-    public void adicionaTapeteAoPedido(Pedido pedido){
+    public int getIdPedido(String cpf, Connection con) throws SQLException{
+        String sql = "select id from pedido where cliente = ?";
+        PreparedStatement stmt;
+        stmt = con.prepareStatement(sql);
+        stmt.setString(1, cpf);
+        ResultSet rs = stmt.executeQuery();
+        rs.next();
+        int id = rs.getInt("id");
+        return id;
+    }
+    
+    public void adicionaTapeteAoPedido(Pedido pedido, String cpf){
         String sql = "insert into tapete(idPedido, idmaterial, idForma, preco) values(?,?,?,?)";
         Connection con=null;
         PreparedStatement stmt=null;
@@ -275,7 +285,7 @@ public class ClienteDAO {
             List<Tapete> lista = new ArrayList<Tapete>();
             lista = pedido.getTapetes();
             for(Tapete listar:lista){
-                stmt.setInt(1, pedido.getIdentificadorPedido());
+                stmt.setInt(1, getIdPedido(cpf, con));
                 stmt.setInt(2, selecionaMaterialDoTapete(listar.getMaterial()));
                 stmt.setInt(3, adicionaFormaAoTapete(listar.getForma()));
                 stmt.setDouble(4, pedido.getPreco());
