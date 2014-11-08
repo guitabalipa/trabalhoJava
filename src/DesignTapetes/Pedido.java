@@ -26,7 +26,7 @@ public class Pedido {
     }
 
     public void setIdentificadorPedido(int identificadorPedido) {
-        this.idPedido = idPedido;
+        this.idPedido = identificadorPedido;
     }
 
     public double getPreco() {

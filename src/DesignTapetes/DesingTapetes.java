@@ -606,8 +606,8 @@ public class DesingTapetes extends javax.swing.JFrame {
         double preco = (material.getPrecoMetroQuadrado()*tapete.getForma().area());
         tapete.setPreco(preco);
         List<Tapete> tapetes = new ArrayList();
-        tapetes.add(tapete);
         Pedido pedido = new Pedido(tapetes);
+        tapetes.add(tapete);
         ClienteDAO clidao = new ClienteDAO();
         clidao.adicionaPedidoAoCliente(pedido, cliente.getCpf());
     }//GEN-LAST:event_botaoIncluirItemActionPerformed

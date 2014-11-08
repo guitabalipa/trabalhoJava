@@ -110,7 +110,7 @@ public class ClienteDAO {
     }
     
     public void excluirForma(int id, Connection con) throws SQLException{
-        String sql = "delete from triangulo, circulo, retangulo where id = ?";
+        String sql = "delete from forma where id = ?";
         PreparedStatement stmt;
         stmt = con.prepareStatement(sql);
         stmt.setInt(1, id);
@@ -197,9 +197,7 @@ public class ClienteDAO {
     
     public List<Tapete> getTapetes(int id, Connection con) throws SQLException{
         String sql = "select * from tapete"
-                   + "inner join circulo ON (tapete.idForma = circulo.idCirculo)"
-                   + "inner join triangulo ON (tapete.idForma = triangulo.idtriangulo)"
-                   + "inner join retangulo ON (tapete.idForma = retangulo.idretangulo)"
+                   + "inner join forma ON (tapete.idForma = forma.idforma)"
                    + "inner join material  ON (tapete.idMaterial = material.id) WHERE idPedido = ?";
         PreparedStatement stmt;
         stmt = con.prepareStatement(sql);
@@ -212,7 +210,7 @@ public class ClienteDAO {
                 Forma circulo = new Circulo(rs.getDouble("raio"), rs.getString("nome"));
                 tapete.setForma(circulo);
             } else if(rs.getString("nome").equalsIgnoreCase("Retangulo")){
-                Forma retangulo = new Retangulo(rs.getDouble("ladoA"), rs.getDouble("ladoB"), rs.getString("nome"));
+                Forma retangulo = new Retangulo(rs.getDouble("base"), rs.getDouble("altura"), rs.getString("nome"));
                 tapete.setForma(retangulo);
             } else if(rs.getString("nome").equalsIgnoreCase("Triangulo")){
                 Forma triangulo = new Triangulo(rs.getDouble("base"), rs.getDouble("altura"), rs.getString("nome"));
@@ -254,7 +252,8 @@ public class ClienteDAO {
             stmt.executeUpdate();
             ResultSet rs = stmt.getGeneratedKeys();
             rs.next();
-            pedido.setIdentificadorPedido(rs.getInt(1));
+            int id = rs.getInt(1);
+            pedido.setIdentificadorPedido(id);
             adicionaTapeteAoPedido(pedido);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -299,7 +298,7 @@ public class ClienteDAO {
         if(forma.getNome().equalsIgnoreCase("Triangulo")){
             Triangulo triangulo;
             triangulo = (Triangulo)forma;
-            String sql = "insert into triangulo(base, altura, nome) values(?,?,?)";
+            String sql = "insert into forma(base, altura, formanome) values(?,?,?)";
             stmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             stmt.setDouble(1, triangulo.getBase());
             stmt.setDouble(2, triangulo.getAltura());
@@ -309,7 +308,7 @@ public class ClienteDAO {
         } else if(forma.getNome().equalsIgnoreCase("Retangulo")){
             Retangulo retangulo;
             retangulo = (Retangulo)forma;
-            String sql = "insert into retangulo(ladoA, ladoB, nome) values(?,?,?)";
+            String sql = "insert into forma(base, altura, formanome) values(?,?,?)";
             stmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             stmt.setDouble(1, retangulo.getLadoA());
             stmt.setDouble(2, retangulo.getLadoB());
@@ -319,7 +318,7 @@ public class ClienteDAO {
         } else if(forma.getNome().equalsIgnoreCase("Circulo")){
             Circulo circulo;
             circulo = (Circulo)forma;
-            String sql = "insert into circulo(raio, nome) values(?,?)";
+            String sql = "insert into forma(raio, formanome) values(?,?)";
             stmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             stmt.setDouble(1, circulo.getRaio());
             stmt.setString(2, circulo.getNome());
@@ -344,7 +343,7 @@ public class ClienteDAO {
         int id;
         try{
         con = ConnectionFactory.getConnection();
-        String sql = "select from material(id, valor) where nomeMaterial = ?";
+        String sql = "select * from material where nomeMaterial = ?";
         stmt = con.prepareStatement(sql);
         stmt.setString(1, material.getModelo());
         rs = stmt.executeQuery();

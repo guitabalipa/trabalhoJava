@@ -22,7 +22,7 @@ public class MaterialDAO {
         ResultSet rs = null;
         try{
         con = ConnectionFactory.getConnection();
-        String sql = "select from material(id, valor) where nomeMaterial = ?";
+        String sql = "select * from material where nomeMaterial = ?";
         stmt = con.prepareStatement(sql);
         stmt.setString(1, m);
         rs = stmt.executeQuery();
