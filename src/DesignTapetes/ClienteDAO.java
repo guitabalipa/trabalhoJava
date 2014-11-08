@@ -263,6 +263,17 @@ public class ClienteDAO {
         }
     }
     
+    /*public int getIdPedido(String cpf, Connection con) throws SQLException{
+        String sql = "select id from pedido where cliente = ?";
+        PreparedStatement stmt;
+        stmt = con.prepareStatement(sql);
+        stmt.setString(1, cpf);
+        ResultSet rs = stmt.executeQuery();
+        rs.next();
+        int id = rs.getInt("id");
+        return id;
+    }*/
+    
     public void adicionaTapeteAoPedido(Pedido pedido){
         String sql = "insert into tapete(idPedido, idmaterial, idForma, preco) values(?,?,?,?)";
         Connection con=null;
@@ -343,7 +354,7 @@ public class ClienteDAO {
         int id;
         try{
         con = ConnectionFactory.getConnection();
-        String sql = "select * from material where nomeMaterial = ?";
+        String sql = "select id, valor from material where nomeMaterial = ?";
         stmt = con.prepareStatement(sql);
         stmt.setString(1, material.getModelo());
         rs = stmt.executeQuery();

@@ -90,7 +90,7 @@ public class DesingTapetes extends javax.swing.JFrame {
         campoRaio = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox();
+        comboboxmaterial = new javax.swing.JComboBox();
         jLabel17 = new javax.swing.JLabel();
         campoPrecom2 = new javax.swing.JTextField();
         botaoAtualizarMaterial = new javax.swing.JButton();
@@ -409,11 +409,9 @@ public class DesingTapetes extends javax.swing.JFrame {
 
         jLabel16.setText("Material:");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboboxmaterial.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Comum", "Luxo", "Premium" }));
 
         jLabel17.setText("Preço do m2:");
-
-        campoPrecom2.setText("jTextField1");
 
         botaoAtualizarMaterial.setText("Atualizar");
         botaoAtualizarMaterial.addActionListener(new java.awt.event.ActionListener() {
@@ -436,7 +434,7 @@ public class DesingTapetes extends javax.swing.JFrame {
                             .addComponent(jLabel17))
                         .addGap(32, 32, 32)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(comboboxmaterial, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(campoPrecom2, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE))))
                 .addContainerGap(409, Short.MAX_VALUE))
         );
@@ -446,7 +444,7 @@ public class DesingTapetes extends javax.swing.JFrame {
                 .addGap(68, 68, 68)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboboxmaterial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
@@ -566,7 +564,18 @@ public class DesingTapetes extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void botaoAtualizarMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAtualizarMaterialActionPerformed
-        // TODO add your handling code here:
+        
+        double preco;
+        preco=Double.parseDouble(campoPrecom2.getText());
+        
+        String combomaterial;
+        combomaterial=(String)comboboxmaterial.getSelectedItem();
+        
+        Material m=new Material(preco, combomaterial);
+        MaterialDAO md=new MaterialDAO();
+        md.atualizaMaterial(m);
+        
+        JOptionPane.showMessageDialog(null,"Material atualizado.");
     }//GEN-LAST:event_botaoAtualizarMaterialActionPerformed
 
     private void botaoAlterarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAlterarItemActionPerformed
@@ -610,6 +619,7 @@ public class DesingTapetes extends javax.swing.JFrame {
         tapetes.add(tapete);
         ClienteDAO clidao = new ClienteDAO();
         clidao.adicionaPedidoAoCliente(pedido, cliente.getCpf());
+        pedido.adicionaTapeteNoPedido(tapete);    
     }//GEN-LAST:event_botaoIncluirItemActionPerformed
 
     /**
@@ -670,7 +680,7 @@ public class DesingTapetes extends javax.swing.JFrame {
     private javax.swing.JTextField campoTamanho;
     private javax.swing.JComboBox comboBoxForma;
     private javax.swing.JComboBox comboBoxMaterial;
-    private javax.swing.JComboBox jComboBox3;
+    private javax.swing.JComboBox comboboxmaterial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
